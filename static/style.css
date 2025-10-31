@@ -1,0 +1,77 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+#puzzle-container {
+    display: grid;
+    margin: 0 auto;
+    border: 3px solid #333;
+    width: 60vmin;
+    height: 60vmin;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.blank {
+    background-color: #e0e0e0;
+    cursor: default;
+}
+
+.puzzle-container.solved .tile img {
+    display: none;
+}
+
+#message-container {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #4CAF50;
+}
+
+/* Add this class to prevent the message from showing initially */
+#message-container h2 {
+    display: none;
+}
+
+/* Add this to display the message when the puzzle is solved */
+.solved+#message-container h2 {
+    display: block;
+}
+
+/* Style the final, full image */
+.full-image-reveal {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border: none;
+}
+
+/* Ensure the puzzle container doesn't have grid behavior after solving */
+#puzzle-container.solved {
+    display: block;
+    width: 60vmin;
+    height: 60vmin;
+}

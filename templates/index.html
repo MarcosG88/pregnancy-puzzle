@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise! A Puzzle Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Solve the puzzle to reveal our big news!</h1>
+    <div id="puzzle-container" class="grid-{{ grid_size }}">
+        {% for tile in game_state %}
+        <div class="tile {% if tile == 'blank' %}blank{% endif %}" onclick="moveTile(this, {{ loop.index0 }})">
+            {% if tile != 'blank' %}
+            <img src="{{ url_for('static', filename='tiles/' + tile) }}" alt="puzzle tile">
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    <div id="message-container"></div>
+
+    <script>
+        function moveTile(element, index) {
+            fetch(`/move/${index}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_solved) {
+                        // Update the message and then display the full image
+                        document.getElementById('message-container').innerHTML = '<h2>It\'s a boy/girl! We\'re expecting!</h2>';
+
+                        const puzzleContainer = document.getElementById('puzzle-container');
+
+                        // Clear the puzzle container and its contents
+                        puzzleContainer.innerHTML = '';
+
+                        // Create and append the full-size image
+                        const fullImage = document.createElement('img');
+                        // Use your image file name here
+                        fullImage.src = "{{ url_for('static', filename='garra.jpg') }}";
+                        fullImage.alt = "Your announcement";
+                        fullImage.classList.add('full-image-reveal');
+                        puzzleContainer.appendChild(fullImage);
+
+                        // Add a class for potential styling (e.g., to adjust the container)
+                        puzzleContainer.classList.add('solved');
+
+                    } else {
+                        // This is the logic for a regular move
+                        const puzzleContainer = document.getElementById('puzzle-container');
+                        puzzleContainer.innerHTML = ''; // Clear existing tiles
+                        data.game_state.forEach((tile, i) => {
+                            const newTile = document.createElement('div');
+                            newTile.className = 'tile ' + (tile === 'blank' ? 'blank' : '');
+                            newTile.onclick = () => moveTile(newTile, i);
+                            if (tile !== 'blank') {
+                                const img = document.createElement('img');
+                                img.src = "{{ url_for('static', filename='tiles/') }}" + tile;
+                                img.alt = 'puzzle tile';
+                                newTile.appendChild(img);
+                            }
+                            puzzleContainer.appendChild(newTile);
+                        });
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>

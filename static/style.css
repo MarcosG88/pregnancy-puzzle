@@ -1,19 +1,35 @@
 body {
+    /* Use your new cosmic background image here */
+    background-image: url('cosmic_background.jpg');
+    background-size: cover;
+    /* This makes the image cover the entire background */
+    background-attachment: fixed;
+    /* Keeps the background in place when scrolling */
     font-family: sans-serif;
     text-align: center;
-    background-color: #f0f0f0;
     padding: 20px;
+    color: #e0e0ff;
+    /* Light, stars-like color for main text */
+}
+
+h1 {
+    color: #b39ddb;
+    /* A nice, subtle purple for the title */
+    text-shadow: 1px 1px 3px #000;
 }
 
 #puzzle-container {
     display: grid;
     margin: 0 auto;
-    border: 3px solid #333;
+    border: 3px solid #800080;
+    /* A deep purple border */
     width: 60vmin;
     height: 60vmin;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px #800080;
+    /* A glowing purple shadow */
 }
 
+/* Ensure the grid is properly defining the size of the tiles */
 .grid-3 {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -37,7 +53,8 @@ body {
 }
 
 .blank {
-    background-color: #e0e0e0;
+    background-color: #333366;
+    /* A dark cosmic blue */
     cursor: default;
 }
 
@@ -48,17 +65,22 @@ body {
 #message-container {
     margin-top: 20px;
     font-size: 1.5em;
-    color: #4CAF50;
+    color: #FFD700;
+    /* Gold color for the reveal message to stand out */
+    text-shadow: 1px 1px 3px #000;
 }
 
-/* Add this class to prevent the message from showing initially */
-#message-container h2 {
-    display: none;
-}
-
-/* Add this to display the message when the puzzle is solved */
-.solved+#message-container h2 {
-    display: block;
+/* Styling for the solve button */
+#solve-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #9c27b0;
+    /* A vibrant purple button */
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
 /* Style the final, full image */
@@ -74,16 +96,4 @@ body {
     display: block;
     width: 60vmin;
     height: 60vmin;
-}
-
-#solve-button {
-    margin-top: 20px;
-    padding: 10px 15px;
-    font-size: 1em;
-    cursor: pointer;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    /* This will hide the button if you want it gone on initial load, but the JS will handle it after a click */
 }

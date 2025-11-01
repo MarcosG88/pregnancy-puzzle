@@ -75,3 +75,15 @@ body {
     width: 60vmin;
     height: 60vmin;
 }
+
+#solve-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    /* This will hide the button if you want it gone on initial load, but the JS will handle it after a click */
+}

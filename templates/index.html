@@ -10,6 +10,9 @@
 
 <body>
     <h1>Solve the puzzle to reveal our big news!</h1>
+
+    <button id="solve-button" onclick="autoSolve()">I give up, show me the news!</button>
+
     <div id="puzzle-container" class="grid-{{ grid_size }}">
         {% for tile in game_state %}
         <div class="tile {% if tile == 'blank' %}blank{% endif %}" onclick="moveTile(this, {{ loop.index0 }})">
@@ -22,13 +25,79 @@
     <div id="message-container"></div>
 
     <script>
+        // This function forces the puzzle to the solved state
+        function autoSolve() {
+            // First, make a fetch request to the server to get the solved state
+            // This is a simple way to get the final image path and message
+            fetch(`/move/0`) // Send a dummy move to check the state
+                .then(response => response.json())
+                .then(data => {
+                    // Call the reveal logic directly
+                    revealPuzzle();
+                    // Hide the solve button after it's clicked
+                    document.getElementById('solve-button').style.display = 'none';
+                });
+        }
+
+        // New function to handle the reveal logic, moved from the moveTile function
+        function revealPuzzle() {
+            // Update the message
+            document.getElementById('message-container').innerHTML = '<h2>Coming Soon...</h2>';
+
+            const puzzleContainer = document.getElementById('puzzle-container');
+
+            // Clear the puzzle container and its contents
+            puzzleContainer.innerHTML = '';
+
+            // Create and append the full-size image
+            const fullImage = document.createElement('img');
+            fullImage.src = "{{ url_for('static', filename='garra.jpg') }}";
+            fullImage.alt = "Your announcement";
+            fullImage.classList.add('full-image-reveal');
+            puzzleContainer.appendChild(fullImage);
+
+            // Add a class for potential styling
+            puzzleContainer.classList.add('solved');
+        }
+
+
+        // Update the existing moveTile function to call the new revealPuzzle function
+        function moveTile(element, index) {
+            fetch(`/move/${index}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_solved) {
+                        revealPuzzle();
+                        // Also hide the solve button if they solve it manually
+                        document.getElementById('solve-button').style.display = 'none';
+                    } else {
+                        // This is the logic for a regular move (remains the same)
+                        const puzzleContainer = document.getElementById('puzzle-container');
+                        puzzleContainer.innerHTML = '';
+                        data.game_state.forEach((tile, i) => {
+                            const newTile = document.createElement('div');
+                            newTile.className = 'tile ' + (tile === 'blank' ? 'blank' : '');
+                            newTile.onclick = () => moveTile(newTile, i);
+                            if (tile !== 'blank') {
+                                const img = document.createElement('img');
+                                img.src = "{{ url_for('static', filename='tiles/') }}" + tile;
+                                img.alt = 'puzzle tile';
+                                newTile.appendChild(img);
+                            }
+                            puzzleContainer.appendChild(newTile);
+                        });
+                    }
+                });
+        }
+
+
         function moveTile(element, index) {
             fetch(`/move/${index}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.is_solved) {
                         // Update the message and then display the full image
-                        document.getElementById('message-container').innerHTML = '<h2>The one where we are expecting Baby G coming 2026!</h2>';
+                        document.getElementById('message-container').innerHTML = '<h2>Coming in 2026!</h2>';
 
                         const puzzleContainer = document.getElementById('puzzle-container');
 
@@ -65,6 +134,8 @@
                     }
                 });
         }
+
+
     </script>
 </body>
 

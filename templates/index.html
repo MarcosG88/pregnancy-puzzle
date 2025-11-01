@@ -76,6 +76,11 @@
                         revealPuzzle();
                         // Also hide the solve button if they solve it manually
                         document.getElementById('solve-button').style.display = 'none';
+                        confetti({
+                            particleCount: 100, // Number of confetti pieces
+                            spread: 70,         // How wide the confetti spreads
+                            origin: { y: 0.6 }  // Origin of the launch (vertical position)
+                        });
                     } else {
                         // This is the logic for a regular move (remains the same)
                         const puzzleContainer = document.getElementById('puzzle-container');

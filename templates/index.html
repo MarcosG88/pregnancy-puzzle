@@ -51,7 +51,7 @@
 
             // Create and append the full-size image
             const fullImage = document.createElement('img');
-            fullImage.src = "{{ url_for('static', filename='garra.jpg') }}";
+            fullImage.src = "{{ url_for('static', filename='surprise_image.jpg') }}";
             fullImage.alt = "Your announcement";
             fullImage.classList.add('full-image-reveal');
             puzzleContainer.appendChild(fullImage);
@@ -114,7 +114,7 @@
                         // Create and append the full-size image
                         const fullImage = document.createElement('img');
                         // Use your image file name here
-                        fullImage.src = "{{ url_for('static', filename='garra.jpg') }}";
+                        fullImage.src = "{{ url_for('static', filename='surprise_image.jpg') }}";
                         fullImage.alt = "Your announcement";
                         fullImage.classList.add('full-image-reveal');
                         puzzleContainer.appendChild(fullImage);

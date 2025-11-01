@@ -4,7 +4,7 @@ import random
 app = Flask(__name__)
 
 # Game parameters
-GRID_SIZE = 3
+GRID_SIZE = 4
 TOTAL_TILES = GRID_SIZE * GRID_SIZE
 WINNING_ORDER = [f'tile_{i // GRID_SIZE}_{i % GRID_SIZE}.png' for i in range(TOTAL_TILES)]
 WINNING_ORDER[-1] = 'blank' # The last tile is the empty space

@@ -11,7 +11,7 @@
 <body>
     <h1>Solve the puzzle to reveal our big news!</h1>
 
-    <button id="solve-button" onclick="autoSolve()">I give up, show me the news!</button>
+    <!-- <button id="solve-button" onclick="autoSolve()">I give up, show me the news!</button> -->
 
     <div id="puzzle-container" class="grid-{{ grid_size }}">
         {% for tile in game_state %}
@@ -22,6 +22,8 @@
         </div>
         {% endfor %}
     </div>
+    <button id="solve-button" onclick="autoSolve()">I give up, show me the news!</button>
+
     <div id="message-container"></div>
 
     <script>
@@ -59,11 +61,54 @@
             // Add a class for potential styling
             puzzleContainer.classList.add('solved');
 
-            confetti({
-                particleCount: 100, // Number of confetti pieces
-                spread: 70,         // How wide the confetti spreads
-                origin: { y: 0.6 }  // Origin of the launch (vertical position)
+            // Define the heart shape using a PATH instead of an EMOJI character
+            // Note: Paths are single-color only when defined, but force it to be transparent 
+            // so the 'colors' array in the main confetti() call can take over.
+            const heartPath = confetti.shapeFromPath({
+                path: 'M16 28.5l-12.7-12.8c-2.5-2.5-2.5-6.5 0-9.1 2.5-2.5 6.5-2.5 9.1 0l3.6 3.6 3.6-3.6c2.5-2.5 6.5-2.5 9.1 0 2.5 2.5 2.5 6.5 0 9.1l-12.7 12.8z',
+                scalar: 1.5 // Adjust the scalar here for base size
             });
+
+            var duration = 15 * 1000;
+            var animationEnd = Date.now() + duration;
+            // Define colors
+            const customColors = ['#990000', '#EE82EE', '#FFFFFF'];
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function () {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    shapes: [heartPath],
+                    colors: customColors,
+                    scalar: 2, // to adjust size during the call
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                });
+
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    shapes: [heartPath],
+                    colors: customColors,
+                    scalar: 2,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                });
+
+            }, 250);
+
+
         }
 
 
@@ -122,11 +167,55 @@
                         // Add a class for potential styling (e.g., to adjust the container)
                         puzzleContainer.classList.add('solved');
 
-                        confetti({
-                            particleCount: 100, // Number of confetti pieces
-                            spread: 70,         // How wide the confetti spreads
-                            origin: { y: 0.6 }  // Origin of the launch (vertical position)
+
+                        // Define the heart shape using a PATH instead of an EMOJI character
+                        // Note: Paths are single-color only when defined, but force it to be transparent 
+                        // so the 'colors' array in the main confetti() call can take over.
+                        const heartPath = confetti.shapeFromPath({
+                            path: 'M16 28.5l-12.7-12.8c-2.5-2.5-2.5-6.5 0-9.1 2.5-2.5 6.5-2.5 9.1 0l3.6 3.6 3.6-3.6c2.5-2.5 6.5-2.5 9.1 0 2.5 2.5 2.5 6.5 0 9.1l-12.7 12.8z',
+                            scalar: 1.5 // Adjust the scalar here for base size
                         });
+
+                        var duration = 15 * 1000;
+                        var animationEnd = Date.now() + duration;
+                        // Define colors
+                        const customColors = ['#990000', '#EE82EE', '#FFFFFF'];
+                        var defaults = { startVelocity: 30, spread: 360, ticks: 60 };
+
+                        function randomInRange(min, max) {
+                            return Math.random() * (max - min) + min;
+                        }
+
+                        var interval = setInterval(function () {
+                            var timeLeft = animationEnd - Date.now();
+
+                            if (timeLeft <= 0) {
+                                return clearInterval(interval);
+                            }
+
+                            var particleCount = 50 * (timeLeft / duration);
+
+                            confetti({
+                                ...defaults,
+                                particleCount,
+                                shapes: [heartPath],
+                                colors: customColors,
+                                scalar: 2, // to adjust size during the call
+                                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                            });
+
+                            confetti({
+                                ...defaults,
+                                particleCount,
+                                shapes: [heartPath],
+                                colors: customColors,
+                                scalar: 2,
+                                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                            });
+
+                        }, 250);
+
+
 
                     } else {
                         // This is the logic for a regular move

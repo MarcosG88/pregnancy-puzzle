@@ -21,4 +21,4 @@ def slice_image(image_path, rows, cols):
             tile.save(os.path.join(output_dir, f'tile_{row}_{col}.png'))
 
 # Example usage for a 3x3 puzzle
-slice_image('static/surprise_image.jpg', 4, 4)
+slice_image('static/surprise_image.jpg', 3, 3)
